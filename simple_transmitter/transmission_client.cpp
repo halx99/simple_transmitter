@@ -28,7 +28,7 @@ bool transmission_client::start( const char* ip, u_short port)
 
 	do {
 		std::cout << "Transmission Client: connecting to server: " << ip << ":" << port << "...\n";
-		this->sock_obj = new xsocket(AF_INET, SOCK_STREAM, 0);
+		this->sock_obj = new xxsocket(AF_INET, SOCK_STREAM, 0);
 		if (this->sock_obj->connect(ip, port) != 0)
 		{
 			std::cerr << "Transmission Client: connect failed!\n";

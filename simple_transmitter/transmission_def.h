@@ -5,10 +5,10 @@
 #define _TRANSMISSION_VERSION_ "1.0.1"
 #endif
 #include <iostream>
-#include "common/xsocket.h"
+#include "xxsocket.h"
 #include "xxbswap.h"
 #include "politedef.h"
-using namespace libsimple::net;
+using namespace purelib::net;
 
 /// error strings
 #define ERRS_SERVER_BIND_FAIELD "Transmission Server: bind failed"

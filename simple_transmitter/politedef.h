@@ -33,6 +33,12 @@
 #  define nullptr         0
 #endif
 
+#if defined( WINAPI_FAMILY ) && WINAPI_FAMILY != WINAPI_FAMILY_DESKTOP_APP
+#ifndef _WINSTORE
+#define _WINSTORE 1
+#endif
+#endif
+
 /*
  * _POLAPI_ Definitions
  */
@@ -147,6 +153,7 @@ static __inline int64_t rdtsc(void)
 }
 #elif !defined(_WIN64) /* win32 */
 #define _naked_mark __declspec(naked)
+#if 0
 _naked_mark
 static inline int64_t rdtsc(void)
 {
@@ -156,6 +163,7 @@ static inline int64_t rdtsc(void)
         ret;
     }
 }
+#endif
 #else
 #define _naked_mark
 #endif
@@ -214,7 +222,9 @@ namespace polite = ::purelib;
 
 #define _FORMAT_CTL(width,delim) std::setw(width) << std::setfill(delim) << std::setiosflags(std::ios_base::left)
 #define _FORMAT_STRING(width,tip,value,delim) _FORMAT_CTL(width, delim) << std::string(tip) + " " << " " << value
+#define _FORMAT_STRING_L(width,tip,value,len,delim) _FORMAT_CTL(width, delim) << std::string(tip) + " " << " " << std::string(value,len) << "\n"
 #define strfmt(tip,value,delim) _FORMAT_STRING(23, tip, value, delim)
+#define strnfmt(tip,value,len,delim) _FORMAT_STRING_L(23, tip, value, len, delim)
 
 #define enable_leak_check() _CrtSetDbgFlag ( _CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF )
 

@@ -75,19 +75,19 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="common\xsocket.cpp" />
     <ClCompile Include="transmission_basic.cpp" />
     <ClCompile Include="transmitter.cpp" />
     <ClCompile Include="transmission_client.cpp" />
     <ClCompile Include="transmission_server.cpp" />
+    <ClCompile Include="xxsocket.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="common\xsocket.h" />
     <ClInclude Include="transmission_basic.h" />
     <ClInclude Include="transmission_client.h" />
     <ClInclude Include="transmission_def.h" />
     <ClInclude Include="transmission_server.h" />
     <ClInclude Include="xxbswap.h" />
+    <ClInclude Include="xxsocket.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -11,7 +11,7 @@ public:
 	virtual bool start(const char* ip, u_short port) = 0;
 	virtual bool is_server(void) { return false; }
 protected:
-	xsocket* sock_obj;
+	xxsocket* sock_obj;
 };
 
 #endif

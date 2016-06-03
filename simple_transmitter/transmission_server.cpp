@@ -23,7 +23,7 @@ std::mutex mtx;
 transmission_server::transmission_server()
 {
 	signal(SIGBREAK, sig_handler);
-	this->sock_obj = new xsocket(AF_INET, SOCK_STREAM, 0);
+	this->sock_obj = new xxsocket(AF_INET, SOCK_STREAM, 0);
 }
 
 static std::string get_short_name(const std::string& complete_filename)
@@ -87,16 +87,16 @@ void transmission_server::run(void)
 	do {
 		std::cout << "Transmission Server: waiting for transmission client...\n";
 		mtx.lock();
-		xsocket* csock = this->sock_obj->accept();
+		xxsocket csock = this->sock_obj->accept();
 		mtx.unlock();
-		std::cout << "Transmission Server: new client connection arrived, peer address:" << csock->get_addr_full() << "\n";
+		std::cout << "Transmission Server: new client connection arrived, peer address:" << csock.local_endpoint().to_string() << "\n";
 
 		sftp_header header;
 
-		int count = csock->recv(buffer, header.size); // recv header
+		int count = csock.recv(buffer, header.size); // recv header
 		if (count == -1) {
 			std::cout << "Transmission Server: client is gone.\n";
-			csock->release();
+			csock.release();
 			continue;
 		}
 		// dump_hex_i("收到包头:", buffer, header.size);
@@ -105,7 +105,7 @@ void transmission_server::run(void)
 		char filenamebuf[256] = { 0 };
 		std::cout << "Transmission Server: header received, size: " << header.size << "\n"
 			<< "Transmission Server: namesize: " << header.namesize << " datasize: " << header.datasize << ", now receive name, please wait...\n";
-		csock->recv(filenamebuf, header.namesize);
+		csock.recv(filenamebuf, header.namesize);
 
 		std::cout << "Transmission Server: receive complete, detail: \n"
 			"                     filename size --> " << header.namesize << "\n"
@@ -123,8 +123,8 @@ void transmission_server::run(void)
 			std::cin >> command;
 			if (strcmp(command, "yes") != 0) {
 				std::cout << "You select no, now close client.\n";
-				csock->close();
-				csock->release();
+				csock.close();
+				csock.release();
 				return;
 			}
 
@@ -143,7 +143,7 @@ void transmission_server::run(void)
 		std::streamsize bytes_left = header.datasize;
 		while (bytes_left > 0) {
 			auto byte_to_recv = (std::min)(bytes_left, (std::streamsize)sizeof(buffer));
-			auto bytes_recv = csock->recv(buffer, byte_to_recv);
+			auto bytes_recv = csock.recv(buffer, byte_to_recv);
 			if (recv > 0) {
 				of.write(buffer, bytes_recv);
 				bytes_left -= bytes_recv;
@@ -162,7 +162,7 @@ void transmission_server::run(void)
 		std::cout << "Transmission Server: speed: " << speed << "MB/s.\n";
 		this->sock_obj->send("ACK", sizeof("ACK"));
 
-		csock->release();
+        csock.shutdown();
 
 	} while (!brk_sig_received);
 

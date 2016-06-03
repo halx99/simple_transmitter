@@ -4,8 +4,8 @@
 #include "transmission_client.h"
 #include "transmission_server.h"
 #include "common/thread_basic.h"
-using namespace libsimple::net;
-using namespace libsimple::asy;
+//using namespace libsimple::net;
+//using namespace libsimple::asy;
 extern int server_thread_count;
 int main(int argc, char** argv)
 {

@@ -30,7 +30,7 @@
     <ClCompile Include="transmission_basic.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="common\xsocket.cpp">
+    <ClCompile Include="xxsocket.cpp">
       <Filter>common</Filter>
     </ClCompile>
   </ItemGroup>
@@ -47,11 +47,11 @@
     <ClInclude Include="transmission_basic.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="common\xsocket.h">
-      <Filter>common</Filter>
-    </ClInclude>
     <ClInclude Include="xxbswap.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="xxsocket.h">
+      <Filter>common</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
